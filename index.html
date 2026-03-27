@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>9 ශ්‍රේණිය දහම් පාසල් ප්‍රශ්නෝත්තර - Daham Pasal Grade 9 Q&A</title>
+  <meta name="description" content="9 ශ්‍රේණිය දහම් පාසලට නව නිර්දේශයට අනුකූල ප්‍රශ්න සහ පිළිතුරු ඇතුළත් වෙබ් අඩවිය.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/png" href="pwa_icon_512.png">
+  <link rel="apple-touch-icon" href="pwa_icon_512.png">
+  <meta name="theme-color" content="#ff9800">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="msapplication-TileImage" content="pwa_icon_512.png">
+  <meta name="msapplication-TileColor" content="#ff9800">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo-section">
+        <div class="logo-icon">
+          <img src="pwa_icon_512.png" alt="Logo" style="width: 100%; height: 100%; object-fit: contain; border-radius: 12px;">
+        </div>
+        <div class="logo-text">
+          <h2 style="margin-bottom: 0; font-family: 'Outfit', sans-serif;">දහම් පාසල් ප්‍රශ්නය</h2>
+          <p style="font-size: 0.8rem; color: var(--text-muted);">9 ශ්‍රේණිය නව නිර්දේශය</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button class="install-btn" id="pwa-install-btn" style="display: none;"><span>📲</span> ස්ථාපනය කරන්න (Install)</button>
+        <button class="teacher-mode-btn" id="teacher-toggle"><span>🔓</span> ගුරු ප්‍රකාරය (Teacher Mode)</button>
+      </div>
+    </header>
+    <div id="install-banner" class="install-banner" style="display: none;">
+      <div class="banner-content">
+        <div class="banner-icon">📲</div>
+        <div class="banner-text">
+          <strong>දහම් පාසල් App එක ස්ථාපනය කරන්න</strong>
+          <p>පහසුවෙන් භාවිත කිරීමට සහ නොබැඳිව (Offline) පරිශීලනයට ඔබගේ දුරකථනයට හෝ පරිගණකයට එක් කරගන්න.</p>
+        </div>
+      </div>
+      <div class="banner-actions">
+        <button id="banner-install-btn" class="banner-btn-primary">ස්ථාපනය කරන්න</button>
+        <button id="banner-close-btn" class="banner-btn-secondary">පසුවට</button>
+      </div>
+    </div>
+    <main>
+      <h1>9 ශ්‍රේණිය දහම් පාසල් ප්‍රශ්නෝත්තර</h1>
+      <section class="dashboard-section">
+        <div class="lesson-grid" id="lesson-grid">
+          <div class="loading" style="text-align: center; grid-column: 1/-1;">පූරණය වෙමින් පවතී...</div>
+        </div>
+      </section>
+    </main>
+    <footer><p>&copy; 2024 දහම් පාසල් අධ්‍යාපන සහකරු. සියලුම හිමිකම් ඇවිරිණි.</p></footer>
+  </div>
+  <div class="view-overlay" id="view-overlay">
+    <div class="view-content" id="view-content">
+      <button class="close-btn" id="close-btn">&times;</button>
+      <div id="modal-body"></div>
+    </div>
+  </div>
+  <script src="lessons.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

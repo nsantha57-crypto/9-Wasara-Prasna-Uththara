@@ -1,0 +1,29 @@
+{
+  "name": "9 ශ්‍රේණිය දහම් පාසල් ප්‍රශ්නෝත්තර",
+  "short_name": "9 දහම් පාසල",
+  "description": "9 ශ්‍රේණිය දහම් පාසලට නව නිර්දේශයට අනුකූල ප්‍රශ්න සහ පිළිතුරු ඇතුළත් වෙබ් අඩවිය.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ff9800",
+  "icons": [
+    {
+      "src": "pwa_icon_512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "pwa_icon_512.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "pwa_icon_512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
