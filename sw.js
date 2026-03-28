@@ -1,4 +1,5 @@
-const CACHE_NAME = 'daham-pasal-v1';
+const VERSION = 'v1.0.1';
+const CACHE_NAME = `daham-pasal-${VERSION}`;
 const urlsToCache = [
   './',
   './index.html',
@@ -16,6 +17,7 @@ self.addEventListener('install', event => {
         return cache.addAll(urlsToCache);
       })
   );
+  self.skipWaiting();
 });
 
 self.addEventListener('fetch', event => {
@@ -32,16 +34,22 @@ self.addEventListener('fetch', event => {
 });
 
 self.addEventListener('activate', event => {
-  const cacheWhitelist = [CACHE_NAME];
   event.waitUntil(
     caches.keys().then(cacheNames => {
       return Promise.all(
         cacheNames.map(cacheName => {
-          if (cacheWhitelist.indexOf(cacheName) === -1) {
+          if (cacheName !== CACHE_NAME) {
             return caches.delete(cacheName);
           }
         })
       );
     })
   );
+  self.clients.claim();
+});
+
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
 });

@@ -24,8 +24,12 @@ class DahamPasalApp {
      this.installBtn = document.getElementById('pwa-install-btn');
      this.installBanner = document.getElementById('install-banner');
      this.bannerInstallBtn = document.getElementById('banner-install-btn');
-     this.bannerCloseBtn = document.getElementById('banner-close-btn');
-   }
+      this.bannerCloseBtn = document.getElementById('banner-close-btn');
+      this.refreshBtn = document.getElementById('refresh-btn');
+      this.updateBanner = document.getElementById('update-banner');
+      this.updateRefreshBtn = document.getElementById('update-refresh-btn');
+      this.updateCloseBtn = document.getElementById('update-close-btn');
+    }
 
   bindEvents() {
     this.closeBtn.addEventListener('click', () => this.hideLesson());
@@ -40,12 +44,26 @@ class DahamPasalApp {
      if (this.bannerInstallBtn) {
        this.bannerInstallBtn.addEventListener('click', () => this.installPWA());
      }
-     if (this.bannerCloseBtn) {
-       this.bannerCloseBtn.addEventListener('click', () => {
-         this.installBanner.style.display = 'none';
-       });
-     }
-   }
+      if (this.bannerCloseBtn) {
+        this.bannerCloseBtn.addEventListener('click', () => {
+          this.installBanner.style.display = 'none';
+        });
+      }
+      
+      if (this.refreshBtn) {
+        this.refreshBtn.addEventListener('click', () => this.refreshApp());
+      }
+      
+      if (this.updateRefreshBtn) {
+        this.updateRefreshBtn.addEventListener('click', () => this.refreshApp());
+      }
+      
+      if (this.updateCloseBtn) {
+        this.updateCloseBtn.addEventListener('click', () => {
+          this.updateBanner.style.display = 'none';
+        });
+      }
+    }
 
   renderDashboard() {
     this.dashboard.innerHTML = '';
@@ -254,8 +272,42 @@ class DahamPasalApp {
     if ('serviceWorker' in navigator && location.protocol !== 'file:') {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('./sw.js')
-          .then(reg => console.log('Service Worker registered', reg))
+          .then(reg => {
+            console.log('Service Worker registered', reg);
+            
+            // Check for updates on load
+            reg.update();
+
+            // If there's a worker already waiting, show the banner
+            if (reg.waiting) {
+              console.log('Waiting worker found.');
+              this.showUpdateBanner();
+            }
+            
+            // Check for updates periodically or on registration
+            reg.onupdatefound = () => {
+              const installingWorker = reg.installing;
+              installingWorker.onstatechange = () => {
+                if (installingWorker.state === 'installed') {
+                  if (navigator.serviceWorker.controller) {
+                    // New content is available, show banner
+                    console.log('New content detected.');
+                    this.showUpdateBanner();
+                  }
+                }
+              };
+            };
+          })
           .catch(err => console.log('Service Worker registration failed', err));
+      });
+
+      // Handle controllerchange (when a new SW takes over)
+      let refreshing = false;
+      navigator.serviceWorker.addEventListener('controllerchange', () => {
+        if (!refreshing) {
+          window.location.reload();
+          refreshing = true;
+        }
       });
     }
 
@@ -301,6 +353,27 @@ class DahamPasalApp {
      }
      if (this.installBanner) {
        this.installBanner.style.display = 'none';
+     }
+   }
+
+   showUpdateBanner() {
+     if (this.updateBanner) {
+       this.updateBanner.style.display = 'flex';
+     }
+   }
+
+   refreshApp() {
+     // If we have a waiting service worker, skipWaiting() it
+     if ('serviceWorker' in navigator && location.protocol !== 'file:') {
+       navigator.serviceWorker.getRegistration().then(reg => {
+         if (reg && reg.waiting) {
+           reg.waiting.postMessage({ type: 'SKIP_WAITING' });
+         } else {
+           window.location.reload();
+         }
+       });
+     } else {
+       window.location.reload();
      }
    }
 }
